@@ -228,6 +228,33 @@ public class SoloPractice {
 		 * 배열에 있는지 -> 배열 인덱스에 값을 넣어놔라
 		 * 검색하여 있으면 -> 문자열 비교 .equals() 사용
 		 */
+//		  String[] chickenMenu = {"후라이드", "양념", "간장", "마늘", "치즈", "핫후라이드"};
+//	        
+//	        // Scanner 객체 생성
+//	        //Scanner scanner = new Scanner(System.in);
+//	        
+//	        // 사용자 입력 받기
+//	        System.out.print("치킨 이름을 입력하세요: ");
+//	        String userInput = sc.nextLine();
+//	        
+//	        // 배열에서 치킨 메뉴 검색
+//	        boolean found = false;
+//	        for (int i = 0; i < chickenMenu.length; i++) {
+//	            if (chickenMenu[i].equals(userInput)) {
+//	                found = true;
+//	                break;
+//	            }
+//	        }
+//	        
+//	        // 결과 출력
+//	        if (found) {
+//	            System.out.println(userInput + "치킨 배달 가능");
+//	        } else {
+//	            System.out.println(userInput + "치킨은 없는 메뉴입니다.");
+//	        }
+//	        sc.close();
+     
+	        // Scanner 닫기
 
 		/*
 		 * 자바에서 사용자로부터 5개의 정수를 입력받아 배열에 저장하고, 
