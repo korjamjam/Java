@@ -5,12 +5,14 @@ public class StudentMenu {
 	
 	public StudentMenu() {
 		super();
+		
 		System.out.println("==========학생 정보 출력==========");
 		Student[] stArr = ssm.printStudent();
 		for(int i = 0; i < stArr.length; i++) {
 			String st = stArr[i].inform();
 			System.out.println(st);
 		}
+		
 		System.out.println("==========학생 성적 출력==========");
 		double[] avgArr = ssm.avgScore();
 		System.out.println("학생 점수 합계 :" + (int)avgArr[0]);
