@@ -72,3 +72,5 @@
  //FileOutputStream : 파일과 연결해서 1바이트 단위로 출력할 수 있는 기반스트림
  
  //ObjectOutputStream : 객체 단위로 출력할 수 있도록 도움을 주는 보조스트림
+
+ //StringBuilder : 문자열을 다루는 객체(String과 비슷한 역할을 한다.)
