@@ -70,8 +70,10 @@ public class LottoController {
                 return 500000; // 3등
             case 3:
                 return 50000; // 4등
+            case 2:
+                return 5000; // 4등
             default:
-                return 5000; // 5등
+                return 0; // 5등
         }
     }
 
