@@ -21,16 +21,15 @@ public class NetflixController {
 	//Member배열에 이름과 이메일, 나이 할당
 	public void addMember(String name, String email, int age) {
 		for(int i=0; i<mem.length; i++) {
-			
 			if(mem[i] != null) {
 				mem[i] = new Member(name, email, age);
+				System.out.println(mem.toString());
 			}
 			
 		}
 		
 	}
 	
-	//
 	//등록된회원들을 보여준다.
 	public void printMember() {
 		for(int i=0; i<mem.length; i++) {
