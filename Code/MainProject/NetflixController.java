@@ -4,18 +4,23 @@ import com.kh.vo.Member;
 import com.kh.vo.Video;
 
 public class NetflixController {
-	private Video[] vid = new Video[6]; // 등록된 동영상
+	private Video[] vid = new Video[10]; // 등록된 동영상
 	private Member[] mem = new Member[5]; // 아직 등록 되지는 않았지만 최대로 등록할 수 있는 멤버 수
 	
 	
 	public NetflixController() {
 		super();
 		vid[0] = new Video("스위트홈" , "공포" , 18);
-		vid[1] = new Video("최애의 아이" , "애니" , 15);
-		vid[2] = new Video("타이타닉" , "로맨스" , 15);
+		vid[1] = new Video("최애의 아이" , "애니" , 12);
+		vid[2] = new Video("타이타닉" , "로맨스" , 12);
 		vid[3] = new Video("인사이드 아웃" , "애니" , 0);
 		vid[4] = new Video("나는 솔로" , "예능" , 15);
-		vid[5] = new Video("서울의 봄" , "드라마" , 12);
+		vid[5] = new Video("조커" , "느와르" , 18);
+		vid[6] = new Video("신세계" , "느와르" , 18);
+		vid[7] = new Video("파묘" , "공포" , 18);
+		vid[8] = new Video("여신강림" , "로맨스" , 15);
+		vid[9] = new Video("솔로지옥" , "예능" , 15);
+		
 	}
 
 	//Member배열에 이름과 이메일, 나이 할당
