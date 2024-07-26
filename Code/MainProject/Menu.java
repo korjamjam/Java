@@ -49,7 +49,15 @@ public class Menu {
 
 	}
 	
+	
 	public void addMember() {
+		
+		//이름과 이메일(단,@와 .com을 포함 해야함), 나이를 입력후 배열에 값을 넣음
+		//회원이 다 차면 회원을 등록할 수 없게 만듦.
+		//회원을 더 추가할 거라고 물어본 뒤, 'y','Y'면 반복문을 돌아서 처음 회원 추가 메뉴로 돌아가고 , 
+		//'n','N'이면 등록한 회원들을 보여주고 반복문 이탈 후 mainMenu로 이동
+		//그외의 글자를 입력시 '잘못 입력했습니다' 출력후 처음 회원 추가 메뉴로 돌아가기.
+		
 		while (true) {
 
 			System.out.println("====회원 추가 메뉴====");
@@ -71,11 +79,11 @@ public class Menu {
 
 			System.out.println("회원을 추가 하시겠습니까? (y,n) : ");
 			char choice = sc.next().charAt(0);
-			if (choice == 'y' || choice == 'Y') {
-				System.out.println();
+			sc.nextLine();
+			if (choice == 'n' || choice == 'N') {
+				System.out.println(nc.toString());
 				return;
-			} else if (choice == 'n' || choice == 'N') {
-				break;
+			} else if (choice == 'y' || choice == 'Y') {
 				
 			}
 			
@@ -83,6 +91,7 @@ public class Menu {
 		
 	}
 	
+	//회원 이름과 이메일을 검색 후 배열에서 삭제
 	public void deleteMember() {
 		System.out.println("====회원 삭제 메뉴====");
 		System.out.println("삭제할 회원의 이름을 입력 : ");
@@ -92,8 +101,7 @@ public class Menu {
 	
 	//회원 검색을 하면 회원 정보와 그 회원의 플레이리스트 공개
 	public void searchMember() {
-		
-		
+			
 	}
 	
 	//처음에 Video배열에 저장된 모든 동영상을 보여줌.
@@ -102,14 +110,14 @@ public class Menu {
 		
 	}
 	
+	//회원 이름을 검색후 회원의 플레이리스트를 보여줌
+	//삭제할 동영상 이름을 작성 후 같은 이름의 동영상을 플레이리스트에서 삭제
 	public void deleteVideo() {
 		
 	}
 	
+	//등록된 모든 회원과 그 회원의 플레이리스트를 보여줌.
 	public void viewMemberPlaylist() {
 		
 	}
-	
-	
-
 }
