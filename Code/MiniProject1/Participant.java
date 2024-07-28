@@ -1,3 +1,5 @@
+package com.kh.vo;
+
 public class Participant {
     private String name;
     private int age;
