@@ -1,51 +1,47 @@
 package com.kh.vo;
 
 public class Video {
-	private String videoname;
-	private String type;
-	private int limitage;
-	
-	public Video() {
-		super();
-	}
-	
-	public Video(String videoname, String type, int limitage) {
-		super();
-		this.videoname = videoname;
-		this.type = type;
-		this.limitage = limitage;
-	}
+    private String videoname;
+    private String genre;
+    private int limitage;
 
-	public String getVideoname() {
-		return videoname;
-	}
+    public Video() {
+        super();
+    }
 
-	public void setVideoname(String videoname) {
-		this.videoname = videoname;
-	}
+    public Video(String videoname, String genre, int limitage) {
+        super();
+        this.videoname = videoname;
+        this.genre = genre;
+        this.limitage = limitage;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public String getVideoname() {
+        return videoname;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public void setVideoname(String videoname) {
+        this.videoname = videoname;
+    }
 
-	public int getLimitage() {
-		return limitage;
-	}
+    public String getGenre() {
+        return genre;
+    }
 
-	public void setLimitage(int limitage) {
-		this.limitage = limitage;
-	}
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
 
-	@Override
-	public String toString() {
-		return "Video [videoname=" + videoname + ", type=" + type + ", limitage=" + limitage + "]";
-	}
-	
-	
-	
+    public int getLimitage() {
+        return limitage;
+    }
 
+    public void setLimitage(int limitage) {
+        this.limitage = limitage;
+    }
+
+    @Override
+    public String toString() {
+        return "동영상 제목 : " + videoname + ", 장르 : " + genre + ", 나이제한 : " + limitage;
+    }
 }
