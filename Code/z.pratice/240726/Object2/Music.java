@@ -42,7 +42,11 @@ public class Music {
 	
 	@Override
 	public boolean equals(Object obj) {
-		return super.equals(obj);
+		Music m = (Music)obj;
+		if(this.singer.equals(m.getSinger()) && this.title.equals(m.getTitle())) {
+			return true;
+		}
+		return false;
 	}
 	
 	public int compareTo(Object o) {
