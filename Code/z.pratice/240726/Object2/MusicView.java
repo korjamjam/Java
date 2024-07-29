@@ -157,11 +157,22 @@ public class MusicView {
 	
 	public void  ascTitle() {
 		System.out.println("****** 곡 명 오름차순 정렬 ******");
-		mc.ascTitle();
-		
+		int res = mc.ascTitle();
+		if(res==1) {
+			System.out.println("정렬 성공");
+		}else {
+			System.out.println("정렬 실패");
+		}		
 	}
-	public void descSinger() {
 
+	public void descSinger() {
+		System.out.println("****** 가수 명 내림차순 정렬 ******");
+		int res = mc.descSinger();
+		if (res == 1) {
+			System.out.println("정렬 성공");
+		} else {
+			System.out.println("정렬 실패");
+		}
 	}
 
 }
