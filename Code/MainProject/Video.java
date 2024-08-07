@@ -42,6 +42,6 @@ public class Video {
 
     @Override
     public String toString() {
-        return "동영상 제목 : " + videoname + ", 장르 : " + genre + ", 나이제한 : " + limitage;
+        return "동영상 제목 : " + videoname + " / 장르 : " + genre + " / 나이제한 : " + limitage;
     }
 }
