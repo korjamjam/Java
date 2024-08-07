@@ -1,4 +1,3 @@
-
 package com.kh.menu;
 
 import java.util.Scanner;
