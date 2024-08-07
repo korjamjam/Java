@@ -1,12 +1,15 @@
+
 package com.kh.menu;
 
 import java.util.Scanner;
 
+//import com.kh.control.MemberController;
 import com.kh.control.NetflixController;
 
 public class Menu {
     Scanner sc = new Scanner(System.in);
     NetflixController nc = new NetflixController();
+//    MemberController mc = new MemberController();
 
     public void mainMenu() {
         while (true) {
@@ -55,6 +58,7 @@ public class Menu {
     }
 
     public void addMember() {
+
         while (true) {
             System.out.println("====회원 추가 메뉴====");
             System.out.print("이름 : ");
@@ -74,11 +78,13 @@ public class Menu {
                 }
             }
             while (true) {
-                System.out.print("회원을 추가 하시겠습니까? (y,n) : ");
+                System.out.print("회원을 더 추가 하시겠습니까? (y,n) : ");
                 char choice = sc.next().charAt(0);
                 sc.nextLine();
                 if (choice == 'n' || choice == 'N') {
+                	System.out.println("==============================================");
                     nc.printMember();
+                    System.out.println("==============================================");
                     return;
                 } else if (choice == 'y' || choice == 'Y') {
                     break;
@@ -132,7 +138,6 @@ public class Menu {
                 char choice = sc.next().charAt(0);
                 sc.nextLine();
                 if (choice == 'n' || choice == 'N') {
-                    nc.printMember();
                     return;
                 } else if (choice == 'y' || choice == 'Y') {
                     break;
@@ -144,22 +149,30 @@ public class Menu {
     }
 
     public void saveVideo() {
-        System.out.println("====동영상 추가 메뉴====");
-        System.out.println("동영상 목록:");
-        nc.printAllVideos();
+		System.out.println("===================동영상 목록===================");
+		nc.printAllVideos();
+		System.out.println("==============================================");
+		while (true) {
+			System.out.print("회원의 이름 입력: ");
+			String name = sc.nextLine();
+			if (!nc.searchMember(name)) {
+				System.out.println("해당 회원이 존재하지 않습니다.");
+			} else {
+				System.out.print("추가할 동영상 제목 입력: ");
+				String videoTitle = sc.nextLine();
 
-        System.out.print("회원의 이름 입력: ");
-        String name = sc.nextLine();
+				if (nc.saveVideo(name, videoTitle)) {
+					System.out.println("동영상이 성공적으로 추가되었습니다.");
+					break;
+				} else {
+					System.out.println("동영상을 추가하지 못했습니다.");
+					System.out.println("메인화면으로 돌아갑니다.");
+					break;
+				}
 
-        System.out.print("추가할 동영상 제목 입력: ");
-        String videoTitle = sc.nextLine();
-
-        if (nc.saveVideo(name, videoTitle)) {
-            System.out.println("동영상이 성공적으로 추가되었습니다.");
-        } else {
-            System.out.println("동영상을 추가하지 못했습니다.");
-        }
-    }
+			}
+		}
+	}
 
     public void deleteVideo() {
         System.out.println("====동영상 삭제 메뉴====");
@@ -182,7 +195,7 @@ public class Menu {
     }
 
     public void viewMemberPlaylist() {
-        System.out.println("====모든 회원의 플레이리스트 보기====");
+    	System.out.println("=============모든 회원의 플레이리스트 보기=============");
         nc.viewAllMemberPlaylists();
     }
 }
