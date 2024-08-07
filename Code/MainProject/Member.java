@@ -59,6 +59,6 @@ public class Member {
 
     @Override
     public String toString() {
-        return "회원 이름 : " + membername + ", 이메일 : " + email + ", age=" + age + ", 플레이리스트 : " + playlist;
+        return "회원 이름 : " + membername + " / 이메일 : " + email + " / 나이 : " + age;
     }
 }
