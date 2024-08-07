@@ -12,9 +12,9 @@ public class NetflixController {
     public NetflixController() {
         super();
         vid.add(new Video("스위트홈", "공포", 18));
-        vid.add(new Video("미니언즈", "애니", 0));
+        vid.add(new Video("미니언즈", "애니", 1));
         vid.add(new Video("타이타닉", "로맨스", 15));
-        vid.add(new Video("인사이드 아웃", "애니", 0));
+        vid.add(new Video("인사이드 아웃", "애니", 1));
         vid.add(new Video("나는 솔로", "예능", 15));
         vid.add(new Video("조커", "느와르", 18));
         vid.add(new Video("신세계", "느와르", 18));
@@ -52,6 +52,7 @@ public class NetflixController {
         for (Member m : mem) {
             if (m.getMembername().equals(name)) {
                 System.out.println(m);
+                System.out.println(m.getMembername() + "님의 동영상 목록");
                 for (Video v : m.getPlaylist()) {
                     System.out.println(v);
                 }
@@ -61,19 +62,25 @@ public class NetflixController {
         return false;
     }
 
-    public boolean saveVideo(String memberName, String videoTitle) {
-        for (Member m : mem) {
-            if (m.getMembername().equals(memberName)) {
-                for (Video v : vid) {
-                    if (v.getVideoname().equals(videoTitle)) {
-                        m.addVideoToPlaylist(v);
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
+	public boolean saveVideo(String memberName, String videoTitle) {
+		for (Member m : mem) {
+			for (Video v : vid) {
+			if (m.getMembername().equals(memberName)) {
+					if (v.getVideoname().equals(videoTitle)) {
+						if (m.getAge() >= v.getLimitage()) {
+							m.addVideoToPlaylist(v);
+							return true;
+							
+						}else {
+							System.out.println("회원님의 나이가 동영상 나이제한에 걸립니다.");
+							return false;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
 
     public boolean deleteVideo(String memberName, String videoTitle) {
         for (Member m : mem) {
@@ -88,13 +95,15 @@ public class NetflixController {
         }
         return false;
     }
-
+    
     public void viewAllMemberPlaylists() {
         for (Member m : mem) {
             System.out.println(m);
+            System.out.println(m.getMembername() + "님의 동영상 목록");
             for (Video v : m.getPlaylist()) {
                 System.out.println(v);
             }
+            System.out.println("==============================================");
         }
     }
 
@@ -115,4 +124,5 @@ public class NetflixController {
         }
         return false;
     }
+    
 }
