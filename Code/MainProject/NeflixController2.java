@@ -1,7 +1,6 @@
 package com.kh.control;
 
 import java.util.ArrayList;
-
 import com.kh.vo.Video;
 import com.kh.vo.Member;
 
@@ -28,8 +27,8 @@ public class NetflixController {
         }
     }
 
-    public boolean saveVideo(MemberController memberController, String memberName, String videoTitle) {
-        Member member = memberController.getMemberByName(memberName);
+    public boolean saveVideo(MemberController mc, String memberName, String videoTitle) {
+        Member member = mc.getMemberByName(memberName);
         if (member == null) {
             System.out.println("해당 회원이 존재하지 않습니다.");
             return false;
@@ -50,8 +49,8 @@ public class NetflixController {
         return false;
     }
 
-    public boolean deleteVideo(MemberController memberController, String memberName, String videoTitle) {
-        Member member = memberController.getMemberByName(memberName);
+    public boolean deleteVideo(MemberController mc, String memberName, String videoTitle) {
+        Member member = mc.getMemberByName(memberName);
         if (member == null) {
             System.out.println("해당 회원이 존재하지 않습니다.");
             return false;
