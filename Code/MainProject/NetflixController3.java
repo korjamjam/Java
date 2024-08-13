@@ -21,20 +21,6 @@ public class NetflixController {
         videos.add(new Video("솔로지옥", "예능", 15));
     }
 
-  public void addVideo(String title, String genre, int limitAge) {
-        videos.add(new Video(title, genre, limitAge));
-    }
-
-    public boolean removeVideo(String title) {
-        for (Video v : videos) {
-            if (v.getVideoname().equals(title)) {
-                videos.remove(v);
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void printAllVideos() {
         for (Video v : videos) {
             System.out.println(v);
@@ -79,4 +65,21 @@ public class NetflixController {
         System.out.println("해당 동영상이 플레이리스트에 존재하지 않습니다.");
         return false;
     }
+    
+    public void addVideo(String title, String genre, int limitage) {
+    	videos.add(new Video(title, genre, limitage));
+    }
+    
+    public boolean deleteVideo(String title) {
+    	for(Video v : videos) {
+    		if(v.getVideoname().equals(title)) {
+    			videos.remove(v);
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
+    
+    
 }
