@@ -3,34 +3,34 @@ package com.kh.control;
 import com.kh.vo.Member;
 
 public class LoginController {
-    private Member loggedInMember;
-    private boolean isAdmin;
+	
+	private Member LoginMember;
+	private boolean isAdmin;
+	
+	public boolean login(String name, String email, String password) {
+		if(name.equals("admin") && password.equals("admin123")) {
+			isAdmin = true;
+			LoginMember = new Member("admin", "admin@admin.com", 123);
+			System.out.println("관리자 계정으로 접속했습니다.");
+			return true;
+		}else {
+			MemberController mc = new MemberController();
+			for(Member m : mc.getMembers()) {
+				if(m.getMembername().equals(name) && m.getEmail().equals(email)) {
+					LoginMember = m;
+					isAdmin = false;
+					System.out.println(m.getMembername() + "님 환영합니다.");
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	public Member getLoginMember() {
+		return LoginMember;
+	}
+	public boolean isAdmin() {
+		return isAdmin;
+	}
 
-    public boolean login(String username, String email, String password) {
-        if (username.equals("admin") && password.equals("admin123")) {
-            isAdmin = true;
-            loggedInMember = new Member("admin", "admin@admin.com", 30);
-            System.out.println("관리자 계정으로 접속하셨습니다.");
-            return true;
-        } else {
-            MemberController mc = new MemberController();
-            for (Member member : mc.getMembers()) {
-                if (member.getMembername().equals(username) && member.getEmail().equals(email)) {
-                    loggedInMember = member;
-                    isAdmin = false;
-                    System.out.println(member.getMembername() + "님 환영합니다.");
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public Member getLoggedInMember() {
-        return loggedInMember;
-    }
-
-    public boolean isAdmin() {
-        return isAdmin;
-    }
 }
