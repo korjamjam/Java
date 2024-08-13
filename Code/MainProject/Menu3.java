@@ -10,13 +10,24 @@ public class Menu {
     NetflixController nc = new NetflixController();
     MemberController mc = new MemberController();
     LoginController lc = new LoginController();
-
+    
+    /*
+	<메인메뉴 보기>
+    넷플릭스를 들어 갔을 때 사용가능한 기능을 보여줌
+    <회원 관련>
+    회원추가, 회원삭제, 회원검색, 모든 회원 보기
+    <플레이리스트 관련>
+    동영상 추가, 동영상 삭제, 모든 플레이리스트 보기
+    <프로그램 종료>
+    */
     public void mainMenu() {
-        if (!login()) {
-            System.out.println("로그인에 실패했습니다. 프로그램을 종료합니다.");
-            return;
-        }
-
+    	System.out.println("넷플릭스 프로그램입니다.");
+    	System.out.println("로그인을 하세요.");
+    	if(!login()) {
+    		System.out.println("로그인에 실패했습니다. 프로그램을 종료합니다.");
+    		return;
+    	}
+    	
         while (true) {
             System.out.println("★★ 넷플릭스 플레이리스트 메뉴 ★★");
             System.out.println("1. 회원 추가");
@@ -25,9 +36,10 @@ public class Menu {
             System.out.println("4. 등록된 회원 보기");
             System.out.println("5. 플레이리스트 동영상 추가");
             System.out.println("6. 플레이리스트 동영상 삭제");
-            if (lc.isAdmin()) {
-                System.out.println("8. 동영상 목록에 동영상 추가(관리자 전용)");
-                System.out.println("9. 동영상 목록에서 동영상 삭제(관리자 전용)");
+            System.out.println("7. 모든 플레이리스트 보기");
+            if(lc.isAdmin()) {
+            	System.out.println("8. 동영상 목록에 동영상 추가 (관리자 전용)");
+            	System.out.println("9. 동영상 목록에 동영상 삭제 (관리자 전용)");
             }
             System.out.println("0. 프로그램 종료");
             System.out.print("메뉴 선택 : ");
@@ -35,6 +47,7 @@ public class Menu {
             int choice = sc.nextInt();
             sc.nextLine();
 
+            //입력받은 choice를 switch를 이용해 메서드와 연결
             switch (choice) {
                 case 1:
                     this.addMember();
@@ -46,48 +59,51 @@ public class Menu {
                     this.searchMember();
                     break;
                 case 4:
-                    this.viewAllMember();
-                    break;
+                	this.viewAllMember();
+                	break;
                 case 5:
                     this.saveVideo();
                     break;
                 case 6:
                     this.deleteVideo();
                     break;
+                case 7:
+                    this.viewMemberPlaylist();
+                    break;
                 case 8:
-                    if (lc.isAdmin()) {
-                        this.addVideoToLibrary();
-                    } else {
-                        System.out.println("잘못된 접근입니다.");
-                    }
+                    this.adminAddVideo();
                     break;
                 case 9:
-                    if (lc.isAdmin()) {
-                        this.removeVideoFromLibrary();
-                    } else {
-                        System.out.println("잘못된 접근입니다.");
-                    }
+                    this.adminDeleteVideo();
                     break;
                 case 0:
                     System.out.println("프로그램을 종료합니다.");
                     return;
                 default:
-                    System.out.println("=================잘못 입력했습니다.=================");
+                	System.out.println("=================잘못 입력했습니다.=================");
                     break;
             }
         }
-    }
-
+    }   
+    
+    /*
+    로그인 기능을 추가하고 관리자 계정과 
+    관리자 계정은 NetflixController에 저장된 video들을
+    삭제하거나 새로운 video를 저장할 수 있다.
+    -> 로그인 기능 만들기
+    이름과 이메일, 비밀번호를 사용한다.
+    */
     public boolean login() {
-        System.out.print("사용자 이름: ");
-        String username = sc.nextLine();
-        System.out.print("이메일: ");
-        String email = sc.nextLine();
-        System.out.print("비밀번호: ");
-        String password = sc.nextLine();
-        return lc.login(username, email, password);
+    	System.out.print("이름 :" );
+    	String name = sc.nextLine();
+    	System.out.print("이메일 :");
+    	String email = sc.nextLine();
+    	System.out.print("비밀번호 :");
+    	String password =sc.nextLine();
+    	return lc.login(name, email, password);
+    	
     }
-
+    
     /*
     <회원 추가 메뉴>
      - 이름, 이메일, 나이를 입력하여 회원을 추가
@@ -97,7 +113,7 @@ public class Menu {
      <추가 기능>
      - 회원을 더 추가하는 질문을 넣음
      - 입력받는 값의 타입은 char로 하고 n,N을 입력받으면 추가x, y,Y를 입력받으면 추가o
-     */
+     */   
     public void addMember() {
         while (true) {
             System.out.println("==================회원 추가 메뉴==================");
@@ -293,27 +309,39 @@ public class Menu {
         mc.viewMemberPlaylist();
         System.out.println("=============================================");
     }
-   public void addVideoToLibrary() {
-        System.out.print("추가할 동영상 제목: ");
-        String title = sc.nextLine();
-        System.out.print("장르: ");
-        String genre = sc.nextLine();
-        System.out.print("나이 제한: ");
-        int limitAge = sc.nextInt();
-        sc.nextLine();
-
-        nc.addVideo(title, genre, limitAge);
-        System.out.println("동영상이 목록에 추가되었습니다.");
+   /* 
+    <동영상 목록에 동영상 추가 (관리자 전용)>
+    Video 클래스에 있는 videoArraylist에 동영상을 추가할 수 있음.
+    입력 값은 제목, 장르, 나이제한 이다
+    */   
+    public void adminAddVideo() {
+    	System.out.print("추가할 동영상 제목 :" );
+    	String title = sc.nextLine();
+    	
+    	System.out.print("장르 :");
+    	String genre = sc.nextLine();
+    	
+    	System.out.print("나이제한 :");
+    	int limitage = sc.nextInt(); sc.nextLine();
+    	
+    	nc.addVideo(title, genre, limitage);
+    	System.out.println("새로운 동영상이 추가되었습니다.");
     }
-
-    public void removeVideoFromLibrary() {
-        System.out.print("삭제할 동영상 제목: ");
-        String title = sc.nextLine();
-
-        if (nc.removeVideo(title)) {
-            System.out.println("동영상이 목록에서 삭제되었습니다.");
-        } else {
-            System.out.println("해당 동영상을 찾을 수 없습니다.");
-        }
+    
+    /* 
+    <동영상 목록에 동영상 삭제 (관리자 전용)>
+    Video 클래스에 있는 videoArraylist에 동영상을 추가할 수 있음.
+    제목을 입력하여 동영상을 삭제 한다.
+    */
+    public void adminDeleteVideo() {
+    	System.out.print("삭제할 동영상 제목 : ");
+    	String title = sc.nextLine();
+    	
+    	if(nc.deleteVideo(title)) {
+    		System.out.println(title + " 동영상이 삭제되었습니다.");
+    	}else {
+    		System.out.println("해당 동영상을 찾을 수 없습니다.");
+    	}
+    	
     }
 }
