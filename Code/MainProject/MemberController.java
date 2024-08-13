@@ -9,10 +9,8 @@ public class MemberController {
 
 	public MemberController() {
 		super();
-		//임의의 멤버
+		//기존 회원
 		members.add(new Member("전제민","1@.com",10));
-		members.add(new Member("제민","2@.com",15));
-		members.add(new Member("민","3@.com",20));
 	}
 
 	/*
