@@ -45,7 +45,7 @@ public class MemberController {
 	- members 컬렉션을 순회하여 주어진 name과 일치하는 멤버 객체를 찾음
 	- 일치하면 remove로 회원삭제후 true 반환, 없으면 false 반환
 	*/
-	public boolean deleteMember(String name) {
+	public boolean deleteMember(String name, String userId) {
 		for (Member m : members) {
 			if (m.getMembername().equals(name)) {
 				members.remove(m);
@@ -60,7 +60,7 @@ public class MemberController {
 	- members 컬렉션을 순회하여 주어진 name과 일치하는 멤버 객체를 찾음
 	- 찾으면 그 객체와 동영상목록을 출력하고 true 반환, 일치하는 멤버가 없으면 false 반환
 	*/
-	public boolean searchMember(String name) {
+	public boolean searchMember(String name, String userId) {
 		for (Member m : members) {
 			if (m.getMembername().equals(name)) {
 				System.out.println(m);
@@ -79,7 +79,7 @@ public class MemberController {
 	 members 컬렉션을 순회하여 주어진 name과 일치하는 멤버 객체를 찾고, 찾으면 그 객체를 반환
 	 일치하는 멤버가 없으면 null을 반환(해당 이름의 멤버가 없다)
 	*/
-	public Member getMemberByName(String name) {
+	public Member getMemberByName(String name, String userId) {
 		for (Member m : members) {
 			if (m.getMembername().equals(name)) {
 				return m;
