@@ -9,10 +9,8 @@ public class MemberController {
 
 	public MemberController() {
 		super();
-		//기존 회원
-		members.add(new Member("전제민","1@.com",10));
 	}
-
+	
 	/*
 	<회원 저장>
 	- 최대인원수 5명으로 지정
