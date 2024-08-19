@@ -1,36 +1,55 @@
 package com.kh.control;
 
+import java.util.Scanner;
+
 import com.kh.vo.Member;
 
 public class LoginController {
-	
-	private Member LoginMember;
-	private boolean isAdmin;
-	
-	public boolean login(String name, String email, String password) {
-		if(name.equals("admin") && password.equals("admin123")) {
-			isAdmin = true;
-			LoginMember = new Member("admin", "admin@admin.com", 123);
-			System.out.println("관리자 계정으로 접속했습니다.");
-			return true;
-		}else {
-			MemberController mc = new MemberController();
-			for(Member m : mc.getMembers()) {
-				if(m.getMembername().equals(name) && m.getEmail().equals(email)) {
-					LoginMember = m;
-					isAdmin = false;
-					System.out.println(m.getMembername() + "님 환영합니다.");
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	public Member getLoginMember() {
-		return LoginMember;
-	}
-	public boolean isAdmin() {
-		return isAdmin;
-	}
+    private MemberController mc;
+    private Member loggedInMember;
+    private boolean isAdmin = false;
 
+    public LoginController(MemberController mc) {
+        this.mc = mc;
+    }
+
+    public void login() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("아이디: ");
+        String userId = sc.nextLine();
+        System.out.print("비밀번호: ");
+        String userPwd = sc.nextLine();
+
+        loggedInMember = mc.getMemberByIdAndPwd(userId, userPwd);
+
+        if (loggedInMember != null) {
+            if ("admin".equals(userId) && "ad123".equals(userPwd)) {
+                isAdmin = true;
+                System.out.println("관리자로 로그인 되었습니다.");
+            } else {
+                isAdmin = false;
+                System.out.println("회원으로 로그인 되었습니다.");
+            }
+        } else {
+            System.out.println("로그인 정보가 일치하지 않습니다.");
+        }
+    }
+
+    public boolean isLoggedIn() {
+        return loggedInMember != null;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public Member getLoggedInMember() {
+        return loggedInMember;
+    }
+
+    public void logout() {
+        loggedInMember = null;
+        isAdmin = false;
+        System.out.println("로그아웃 되었습니다.");
+    }
 }
