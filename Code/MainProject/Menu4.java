@@ -4,51 +4,29 @@ import java.util.Scanner;
 
 import com.kh.control.NetflixController;
 import com.kh.control.MemberController;
+import com.kh.control.LoginController;
 
 public class NeflixMenu {
     Scanner sc = new Scanner(System.in);
     NetflixController nc = new NetflixController();
     MemberController mc = new MemberController();
+    LoginController lc = new LoginController(mc);
 
-    //로그인 기능을 추가하고 관리자 계정과 
-    //관리자 계정은 NetflixController에 저장된 video들을
-    //삭제하거나 새로운 video를 저장할 수 있다.
-    
-    /*
-	<메인메뉴 보기>
-    넷플릭스를 들어 갔을 때 사용가능한 기능을 보여줌
-    <회원 관련>
-    회원추가, 회원삭제, 회원검색, 모든 회원 보기
-    <플레이리스트 관련>
-    동영상 추가, 동영상 삭제, 모든 플레이리스트 보기
-    <프로그램 종료>
-    */
     public void mainMenu() {
         while (true) {
-        	//TODO '회원추가'를 회원가입으로 바꾸고 로그인할 수 있게 만들기
-        	//(이때 관리자계정과 일반 회원 계정을 구분하고, MemberController에 이미 등록된 admin을 관리자 계정으로 함.
-        	//처음부터 로그인 하는 것이 아닌 넷플릭스 플레이리스트 메뉴를 볼 수 있게하고, 로그인 메뉴를 따로 만들어서 로그인하게함
-        	//관리자계정으로 로그인 하면 NetflixController클래스에 저장된 video를 직접 추가하거나 삭제할 수 있음.
-        	//회원 가입을 해서 등록된 일반 회원으로 로그인 하면 관리자계정의 기능은 사용하지 못하고, 자신의 플레이리스트에 동영상을 추가하거나 삭제할 수 있음(video를 추가,삭제할 수 없음)
-        	//로그인은 아이디와 비밀번호로 할 수있게 만들기 (이 때 메뉴에서 case2:에 로그인 구현)
-        	//필요에 따라 LoginController 클래스를 따로 만들어서 프로그램 구현하기
-        	//그리고 겹치는 코드가 있다면 함수로 묶은뒤 사용하기.
-        	//현재 구현한 코드는 이름만 같으면 코드가 실행되게 되있는데, 이름과 아이디가 같아야 기능이원활히 되게 해줘(둘중 하나라도 다르면 '잘못 입력하였습니다.' 출력해줘)
             System.out.println("★★ 넷플릭스 플레이리스트 메뉴 ★★");
-            System.out.println("1. 회원 가입"); //-> 회원 가입으로 바꾸기
-            System.out.println("2. 회원 탈퇴"); 
+            System.out.println("1. 회원 가입");
+            System.out.println("2. 회원 탈퇴");
             System.out.println("3. 회원 검색");
-            System.out.println("4. 등록된 회원 보기"); //-> 아이디가 admin인 관리자계정은 안보이게 만들기
-            System.out.println("5. 플레이리스트 동영상 추가");
-            System.out.println("6. 플레이리스트 동영상 삭제");
-            System.out.println("7. 모든 플레이리스트 보기");
-            System.out.println("9. 프로그램 종료");
+            System.out.println("4. 등록된 회원 보기");
+            System.out.println("5. 로그인");
+            System.out.println("6. 로그아웃");
+            System.out.println("7. 프로그램 종료");
             System.out.print("메뉴 선택 : ");
 
             int choice = sc.nextInt();
             sc.nextLine();
 
-            //입력받은 choice를 switch를 이용해 메서드와 연결
             switch (choice) {
                 case 1:
                     this.addMember();
@@ -60,50 +38,94 @@ public class NeflixMenu {
                     this.searchMember();
                     break;
                 case 4:
-                	this.viewAllMember();
-                	break;
+                    this.viewAllMember();
+                    break;
                 case 5:
-                    this.saveVideo();
+                    lc.login();
+                    if (lc.isAdmin()) {
+                        adminMenu();
+                    } else if (lc.isLoggedIn()) {
+                        userMenu();
+                    }
                     break;
                 case 6:
-                    this.deleteVideo();
+                    lc.logout();
                     break;
                 case 7:
-                    this.viewMemberPlaylist();
-                    break;
-                case 9:
                     System.out.println("프로그램을 종료합니다.");
                     return;
                 default:
-                	System.out.println("=================잘못 입력했습니다.=================");
+                    System.out.println("=================잘못 입력했습니다.=================");
                     break;
             }
         }
     }
 
-    /*
-    <회원 추가 메뉴>
-     - 이름, 이메일, 나이를 입력하여 회원을 추가
-     - 이름, 이메일은 String, 나이는 int타입으로 값을 받음
-     - Controller클래스에 메서드를 만들고 그 메서드에서 회원을 추가하는 기능을 수행
-     - 메서드에서 기능을 수행하고 반환한 값을 이용해 반복분을 다시 하거나 탈출
-     <추가 기능>
-     - 회원을 더 추가하는 질문을 넣음
-     - 입력받는 값의 타입은 char로 하고 n,N을 입력받으면 추가x, y,Y를 입력받으면 추가o
-     */
+    public void adminMenu() {
+        while (true) {
+            System.out.println("★★ 관리자 메뉴 ★★");
+            System.out.println("1. 동영상 추가");
+            System.out.println("2. 동영상 삭제");
+            System.out.println("3. 로그아웃");
+            System.out.print("메뉴 선택 : ");
+
+            int choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+                case 1:
+                    this.addVideo();
+                    break;
+                case 2:
+                    this.removeVideo();
+                    break;
+                case 3:
+                    lc.logout();
+                    return;
+                default:
+                    System.out.println("=================잘못 입력했습니다.=================");
+                    break;
+            }
+        }
+    }
+
+    public void userMenu() {
+        while (true) {
+            System.out.println("★★ 사용자 메뉴 ★★");
+            System.out.println("1. 동영상 추가");
+            System.out.println("2. 동영상 삭제");
+            System.out.println("3. 로그아웃");
+            System.out.print("메뉴 선택 : ");
+
+            int choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+                case 1:
+                    this.saveVideoToMemberPlaylist();
+                    break;
+                case 2:
+                    this.deleteVideoFromMemberPlaylist();
+                    break;
+                case 3:
+                    lc.logout();
+                    return;
+                default:
+                    System.out.println("=================잘못 입력했습니다.=================");
+                    break;
+            }
+        }
+    }
+
     public void addMember() {
         while (true) {
             System.out.println("==================회원 추가 메뉴==================");
-            
             System.out.print("이름 : ");
             String name = sc.nextLine();
-            
             System.out.print("아이디 : ");
             String userId = sc.nextLine();
-            
             System.out.print("비밀번호 : ");
             String userPwd = sc.nextLine();
-            
             while (true) {
                 System.out.print("이메일 (@와 .com을 포함) : ");
                 String email = sc.nextLine();
@@ -129,184 +151,104 @@ public class NeflixMenu {
                 } else if (choice == 'y' || choice == 'Y') {
                     break;
                 } else {
-                    System.out.println("잘못 입력했습니다");
+                    System.out.println("잘못 입력하셨습니다.");
                 }
             }
         }
     }
-    
-    /*
-    <회원 삭제 메뉴>
-    - 이름을 이용해 회원 찾기 (이름은 입력값으로)
-    - 단, 등록된 회원이 아니라면 다시 구문 출력 후 다시 반복문 수행
-    - Controller클래스에 메서드를 만들고 그 메서드에서 회원을 추가하는 기능을 수행
-    - 메서드에서 기능을 수행하고 반환한 값을 이용해 반복분을 다시 하거나 탈출
-    <추가 기능>
-    - 회원을 더 삭제하는 질문을 넣음
-    - 입력받는 값의 타입은 char로 하고 n,N을 입력받으면 추가x, y,Y를 입력받으면 추가o
-    */
+
     public void deleteMember() {
-        while (true) {
-            System.out.println("==================회원 삭제 메뉴==================");
-            System.out.print("이름 : ");
-            String name = sc.nextLine();
-            
-            System.out.print("아이디 : ");
-            String userId = sc.nextLine();
+        System.out.println("==================회원 탈퇴 메뉴==================");
+        System.out.print("삭제할 회원의 이름 : ");
+        String name = sc.nextLine();
+        System.out.print("삭제할 회원의 아이디 : ");
+        String userId = sc.nextLine();
 
-            if (mc.deleteMember(name, userId)) {
-                System.out.println("회원이 성공적으로 삭제되었습니다.");
-            } else {
-                System.out.println("해당 이름의 회원이 없습니다.");
-            }
-
-            while (true) {
-                System.out.print("회원을 더 삭제 하시겠습니까? (y,n) : ");
-                char choice = sc.next().charAt(0);
-                sc.nextLine();
-                if (choice == 'n' || choice == 'N') {
-                	 System.out.println("==============================================");
-                     mc.printMembers();
-                     System.out.println("==============================================");
-                    return;
-                } else if (choice == 'y' || choice == 'Y') {
-                    break;
-                } else {
-                    System.out.println("잘못 입력했습니다");
-                }
-            }
+        if (mc.deleteMember(name, userId)) {
+            System.out.println("회원이 성공적으로 삭제되었습니다.");
+        } else {
+            System.out.println("존재하지 않는 회원입니다.");
         }
     }
-    
-    /*
-    <회원 검색 메뉴>
-    - 이름을 이용해 회원 찾기 (이름은 입력값으로)
-    - 단, 등록된 회원이 아니라면 다시 구문 출력 후 다시 반복문 수행
-    - Controller클래스에 메서드를 만들고 그 메서드에서 회원을 추가하는 기능을 수행
-    - 메서드에서 기능을 수행하고 반환한 값을 이용해 반복분을 다시 하거나 탈출
-    <추가 기능>
-    - 회원을 더 검색하는 질문을 넣음
-    - 입력받는 값의 타입은 char로 하고 n,N을 입력받으면 추가x, y,Y를 입력받으면 추가o
-    */
+
     public void searchMember() {
-        while (true) {
-            System.out.println("==================회원 검색 메뉴==================");
-            System.out.print("이름 : ");
-            String name = sc.nextLine();
-            
-            System.out.print("아이디 : ");
-            String userId = sc.nextLine();
+        System.out.println("==================회원 검색 메뉴==================");
+        System.out.print("검색할 회원의 이름 : ");
+        String name = sc.nextLine();
+        System.out.print("검색할 회원의 아이디 : ");
+        String userId = sc.nextLine();
 
-            if (!mc.searchMember(name, userId)) {
-                System.out.println("해당 이름의 회원이 없습니다.");
-            }
-
-            while (true) {
-                System.out.print("회원을 더 검색 하시겠습니까? (y,n) : ");
-                char choice = sc.next().charAt(0);
-                sc.nextLine();
-                if (choice == 'n' || choice == 'N') {
-                    return;
-                } else if (choice == 'y' || choice == 'Y') {
-                    break;
-                } else {
-                    System.out.println("잘못 입력했습니다");
-                }
-            }
+        if (!mc.searchMember(name, userId)) {
+            System.out.println("존재하지 않는 회원입니다.");
         }
     }
-   
-    /*
-    <모든 회원 보기>
-    Controller클래스에서 모든 회원을 보여주는 기능 가진 메소드 호출
-    */
+
     public void viewAllMember() {
-        System.out.println("=================등록된 회원 보기=================");
+        System.out.println("==================회원 목록 보기==================");
         mc.printMembers();
-        System.out.println("=============================================");
     }
 
-    /*
-    <회원의 플레이리스트에 동영상 추가 메뉴>
-    - 미리 저장된 동영상 목록 보여주기
-    - 이름을 이용해 회원 찾기 (이름은 입력값으로)
-    - 단, 등록된 회원이 아니라면 다시 구문 출력 후 다시 반복문 수행
-    - Controller클래스에 메서드를 만들고 그 메서드에서 입력받은 회원에 동영상을 추가하는 기능을 수행
-    - 메서드에서 기능을 수행하고 반환한 값을 이용해 반복분을 다시 하거나 탈출
-    <추가 기능>
-    - 동영상을 추가할 때 동영상이름이 다르면 추가하지 못하게 만듦
-    */
-    public void saveVideo() {
+    // 관리자가 동영상을 추가하는 메서드
+    public void addVideo() {
+        System.out.println("==================동영상 추가 메뉴==================");
         System.out.println("===================동영상 목록===================");
         nc.printAllVideos();
         System.out.println("==============================================");
-        while (true) {
-        	System.out.print("이름 : ");
-            String name = sc.nextLine();
-            
-            System.out.print("아이디 : ");
-            String userId = sc.nextLine();
-            
-            if (!mc.searchMember(name, userId)) {
-                System.out.println("해당 회원이 존재하지 않습니다.");
-            } else {
-                System.out.print("추가할 동영상 제목 입력: ");
-                String videoTitle = sc.nextLine();
+        System.out.print("추가할 동영상 제목 : ");
+        String title = sc.nextLine();
+        System.out.print("추가할 동영상 장르 : ");
+        String genre = sc.nextLine();
+        System.out.print("추가할 동영상 나이 제한 : ");
+        int ageLimit = sc.nextInt();
+        sc.nextLine();
 
-                if (nc.saveVideo(mc, name, userId, videoTitle)) {
-                    System.out.println("☆동영상이 성공적으로 추가되었습니다.☆");
-                    break;
-                } else {
-                    System.out.println("동영상을 추가하지 못했습니다.");
-                    System.out.println("메인화면으로 돌아갑니다.");
-                    break;
-                }
-            }
+        nc.addVideo(title, genre, ageLimit);
+    }
+
+    // 관리자가 동영상을 삭제하는 메서드
+    public void removeVideo() {
+        System.out.println("==================동영상 삭제 메뉴==================");
+        System.out.println("===================동영상 목록===================");
+        nc.printAllVideos();
+        System.out.println("==============================================");
+        System.out.print("삭제할 동영상 제목 : ");
+        String title = sc.nextLine();
+
+        nc.removeVideo(title);
+    }
+
+    // 사용자가 자신의 플레이리스트에 동영상을 추가하는 메서드
+    public void saveVideoToMemberPlaylist() {
+        System.out.println("==================동영상 추가 메뉴==================");
+        System.out.println("===================동영상 목록===================");
+        nc.printAllVideos();
+        System.out.println("==============================================");
+        System.out.print("동영상을 추가할 회원의 이름 : ");
+        String name = sc.nextLine();
+        System.out.print("동영상을 추가할 회원의 아이디 : ");
+        String userId = sc.nextLine();
+        System.out.print("추가할 동영상 제목 : ");
+        String title = sc.nextLine();
+
+        if (nc.saveVideo(mc, name, userId, title)) {
+            System.out.println("동영상이 성공적으로 추가되었습니다.");
         }
     }
 
-    /*
-    <회원의 플레이리스트에 있는 동영상 삭제 메뉴>
-    - 미리 저장된 동영상 목록 보여주기
-    - 이름을 이용해 회원 찾기 (이름은 입력값으로)
-    - 단, 등록된 회원이 아니라면 다시 구문 출력 후 다시 반복문 수행
-    - Controller클래스에 메서드를 만들고 그 메서드에서 회원에게 저장된 동영상을 삭제하는 기능을 수행
-    - 메서드에서 기능을 수행하고 반환한 값을 이용해 반복분을 다시 하거나 탈출
-    <추가 기능>
-    - 동영상을 추가할 때 동영상이름이 다르면 추가하지 못하게 만듦
-    */
-    public void deleteVideo() {
-        System.out.println("=================동영상 삭제 메뉴=================");
-        
-        System.out.print("이름 : ");
+    // 사용자가 자신의 플레이리스트에서 동영상을 삭제하는 메서드
+    public void deleteVideoFromMemberPlaylist() {
+        System.out.println("==================동영상 삭제 메뉴==================");
+        System.out.print("동영상을 삭제할 회원의 이름 : ");
         String name = sc.nextLine();
         
-        System.out.print("아이디 : ");
+        System.out.print("동영상을 삭제할 회원의 아이디 : ");
         String userId = sc.nextLine();
+        
+        System.out.print("삭제할 동영상 제목 : ");
+        String title = sc.nextLine();
 
-        if (mc.searchMember(name, userId)) {
-            System.out.print("삭제할 동영상 제목 입력: ");
-            String videoTitle = sc.nextLine();
-
-            if (nc.deleteVideo(mc, name, userId, videoTitle)) {
-                System.out.println("동영상이 성공적으로 삭제되었습니다.");
-            } else {
-                System.out.println("동영상을 삭제하지 못했습니다.");
-            }
-        } else {
-            System.out.println("해당 회원이 존재하지 않습니다.");
+        if (nc.deleteVideo(mc, name, userId, title)) {
+            System.out.println("동영상이 성공적으로 삭제되었습니다.");
         }
     }
-
-    /*
-    <모든 플레이리스트 보기 메뉴>
-    - 모든 회원의 플레이리스트 목록 보여주기
-    */
-    public void viewMemberPlaylist() {
-        System.out.println("==========등록된 모든 회원의 플레이리스트 보기==========");
-        mc.viewMemberPlaylist();
-        System.out.println("=============================================");
-    }
-    
-   
 }
