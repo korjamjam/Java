@@ -65,21 +65,4 @@ public class NetflixController {
         System.out.println("해당 동영상이 플레이리스트에 존재하지 않습니다.");
         return false;
     }
-    
-    public void addVideo(String title, String genre, int limitage) {
-    	videos.add(new Video(title, genre, limitage));
-    }
-    
-    public boolean deleteVideo(String title) {
-    	for(Video v : videos) {
-    		if(v.getVideoname().equals(title)) {
-    			videos.remove(v);
-    			return true;
-    		}
-    	}
-    	return false;
-    }
-    
-    
-    
 }
