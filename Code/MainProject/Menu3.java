@@ -5,7 +5,7 @@ import java.util.Scanner;
 import com.kh.control.NetflixController;
 import com.kh.control.MemberController;
 
-public class Menu {
+public class NetflixMenu {
     Scanner sc = new Scanner(System.in);
     NetflixController nc = new NetflixController();
     MemberController mc = new MemberController();
@@ -25,12 +25,11 @@ public class Menu {
     */
     public void mainMenu() {
         while (true) {
-        	//TODO '회원추가'를 회원가입으로 바꾸고 로그인할 수 있게 만들기
+        	//TODO NetflixMenu를 로그인할 수 있게 만들기 (로그인은 아이디와 비밀번호로 할 수있게 만들기 (이 때 메뉴에서 case2:에 로그인 구현))
         	//(이때 관리자계정과 일반 회원 계정을 구분하고, MemberController에 이미 등록된 admin을 관리자 계정으로 함.
         	//처음부터 로그인 하는 것이 아닌 넷플릭스 플레이리스트 메뉴를 볼 수 있게하고, 로그인 메뉴를 따로 만들어서 로그인하게함
         	//관리자계정으로 로그인 하면 NetflixController클래스에 저장된 video를 직접 추가하거나 삭제할 수 있음.
         	//회원 가입을 해서 등록된 일반 회원으로 로그인 하면 관리자계정의 기능은 사용하지 못하고, 자신의 플레이리스트에 동영상을 추가하거나 삭제할 수 있음(video를 추가,삭제할 수 없음)
-        	//로그인은 아이디와 비밀번호로 할 수있게 만들기 (이 때 메뉴에서 case2:에 로그인 구현)
         	//필요에 따라 LoginController 클래스를 따로 만들어서 프로그램 구현하기
         	//그리고 겹치는 코드가 있다면 함수로 묶은뒤 사용하기.
             System.out.println("★★ 넷플릭스 플레이리스트 메뉴 ★★");
