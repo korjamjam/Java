@@ -25,11 +25,19 @@ public class Menu {
     */
     public void mainMenu() {
         while (true) {
+        	//TODO '회원추가'를 회원가입으로 바꾸고 로그인할 수 있게 만들기
+        	//(이때 관리자계정과 일반 회원 계정을 구분하고, MemberController에 이미 등록된 admin을 관리자 계정으로 함.
+        	//처음부터 로그인 하는 것이 아닌 넷플릭스 플레이리스트 메뉴를 볼 수 있게하고, 로그인 메뉴를 따로 만들어서 로그인하게함
+        	//관리자계정으로 로그인 하면 NetflixController클래스에 저장된 video를 직접 추가하거나 삭제할 수 있음.
+        	//회원 가입을 해서 등록된 일반 회원으로 로그인 하면 관리자계정의 기능은 사용하지 못하고, 자신의 플레이리스트에 동영상을 추가하거나 삭제할 수 있음(video를 추가,삭제할 수 없음)
+        	//로그인은 아이디와 비밀번호로 할 수있게 만들기
+        	//필요에 따라 LoginController 클래스를 따로 만들어서 프로그램 구현하기
+        	//그리고 겹치는 코드가 있다면 함수로 묶은뒤 사용하기.
             System.out.println("★★ 넷플릭스 플레이리스트 메뉴 ★★");
-            System.out.println("1. 회원 추가");
-            System.out.println("2. 회원 삭제");
+            System.out.println("1. 회원 가입"); //-> 회원 가입으로 바꾸기
+            System.out.println("2. 회원 탈퇴"); 
             System.out.println("3. 회원 검색");
-            System.out.println("4. 등록된 회원 보기");
+            System.out.println("4. 등록된 회원 보기"); //-> 아이디가 admin인 관리자계정은 안보이게 만들기
             System.out.println("5. 플레이리스트 동영상 추가");
             System.out.println("6. 플레이리스트 동영상 삭제");
             System.out.println("7. 모든 플레이리스트 보기");
@@ -86,14 +94,14 @@ public class Menu {
         while (true) {
             System.out.println("==================회원 추가 메뉴==================");
             
+            System.out.print("이름 : ");
+            String name = sc.nextLine();
+            
             System.out.print("아이디 : ");
             String userId = sc.nextLine();
             
             System.out.print("비밀번호 : ");
             String userPwd = sc.nextLine();
-            
-            System.out.print("이름 : ");
-            String name = sc.nextLine();
             
             while (true) {
                 System.out.print("이메일 (@와 .com을 포함) : ");
@@ -139,8 +147,11 @@ public class Menu {
     public void deleteMember() {
         while (true) {
             System.out.println("==================회원 삭제 메뉴==================");
-            System.out.print("삭제할 회원의 이름을 입력 : ");
+            System.out.print("이름 : ");
             String name = sc.nextLine();
+            
+            System.out.print("아이디 : ");
+            String userId = sc.nextLine();
 
             if (mc.deleteMember(name)) {
                 System.out.println("회원이 성공적으로 삭제되었습니다.");
@@ -179,8 +190,11 @@ public class Menu {
     public void searchMember() {
         while (true) {
             System.out.println("==================회원 검색 메뉴==================");
-            System.out.print("검색할 회원의 이름 입력 : ");
+            System.out.print("이름 : ");
             String name = sc.nextLine();
+            
+            System.out.print("아이디 : ");
+            String userId = sc.nextLine();
 
             if (!mc.searchMember(name)) {
                 System.out.println("해당 이름의 회원이 없습니다.");
@@ -226,8 +240,12 @@ public class Menu {
         nc.printAllVideos();
         System.out.println("==============================================");
         while (true) {
-            System.out.print("회원의 이름 입력: ");
+        	System.out.print("이름 : ");
             String name = sc.nextLine();
+            
+            System.out.print("아이디 : ");
+            String userId = sc.nextLine();
+            
             if (!mc.searchMember(name)) {
                 System.out.println("해당 회원이 존재하지 않습니다.");
             } else {
@@ -258,8 +276,12 @@ public class Menu {
     */
     public void deleteVideo() {
         System.out.println("=================동영상 삭제 메뉴=================");
-        System.out.print("회원의 이름 입력: ");
+        
+        System.out.print("이름 : ");
         String name = sc.nextLine();
+        
+        System.out.print("아이디 : ");
+        String userId = sc.nextLine();
 
         if (mc.searchMember(name)) {
             System.out.print("삭제할 동영상 제목 입력: ");
@@ -284,5 +306,6 @@ public class Menu {
         mc.viewMemberPlaylist();
         System.out.println("=============================================");
     }
+    
    
 }
