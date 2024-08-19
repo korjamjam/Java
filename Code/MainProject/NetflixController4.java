@@ -27,8 +27,8 @@ public class NetflixController {
         }
     }
 
-    public boolean saveVideo(MemberController mc, String memberName,  String userId, String videoTitle) {
-        Member member = mc.getMemberByName(memberName,  userId);
+    public boolean saveVideo(MemberController mc, String memberName, String userId, String videoTitle) {
+        Member member = mc.getMemberByName(memberName, userId);
         if (member == null) {
             System.out.println("해당 회원이 존재하지 않습니다.");
             return false;
@@ -49,8 +49,8 @@ public class NetflixController {
         return false;
     }
 
-    public boolean deleteVideo(MemberController mc, String memberName,  String userId, String videoTitle) {
-    	Member member = mc.getMemberByName(memberName,  userId);
+    public boolean deleteVideo(MemberController mc, String memberName, String userId, String videoTitle) {
+        Member member = mc.getMemberByName(memberName, userId);
         if (member == null) {
             System.out.println("해당 회원이 존재하지 않습니다.");
             return false;
@@ -64,5 +64,15 @@ public class NetflixController {
         }
         System.out.println("해당 동영상이 플레이리스트에 존재하지 않습니다.");
         return false;
+    }
+
+    public void addVideo(String videoTitle, String genre, int limitAge) {
+        videos.add(new Video(videoTitle, genre, limitAge));
+        System.out.println("동영상이 성공적으로 추가되었습니다.");
+    }
+
+    public void removeVideo(String videoTitle) {
+        videos.removeIf(video -> video.getVideoname().equals(videoTitle));
+        System.out.println("동영상이 성공적으로 삭제되었습니다.");
     }
 }
