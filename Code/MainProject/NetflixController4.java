@@ -27,8 +27,8 @@ public class NetflixController {
         }
     }
 
-    public boolean saveVideo(MemberController mc, String memberName, String videoTitle) {
-        Member member = mc.getMemberByName(memberName);
+    public boolean saveVideo(MemberController mc, String memberName,  String userId, String videoTitle) {
+        Member member = mc.getMemberByName(memberName,  userId);
         if (member == null) {
             System.out.println("해당 회원이 존재하지 않습니다.");
             return false;
@@ -49,8 +49,8 @@ public class NetflixController {
         return false;
     }
 
-    public boolean deleteVideo(MemberController mc, String memberName, String videoTitle) {
-        Member member = mc.getMemberByName(memberName);
+    public boolean deleteVideo(MemberController mc, String memberName,  String userId, String videoTitle) {
+    	Member member = mc.getMemberByName(memberName,  userId);
         if (member == null) {
             System.out.println("해당 회원이 존재하지 않습니다.");
             return false;
