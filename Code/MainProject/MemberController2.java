@@ -19,7 +19,7 @@ public class MemberController {
 	*/
 	
 	public void addMember(String userId, String userPwd, String name, String email, int age) {
-		if (members.size() < 5) {
+		if (members.size() < 6) {
 			members.add(new Member(userId, userPwd, name, email, age));
 			System.out.println("회원이 성공적으로 추가되었습니다.");
 			return;
