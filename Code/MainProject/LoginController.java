@@ -9,10 +9,12 @@ public class LoginController {
     private Member logInMember;
     private boolean isAdmin = false;
 
+    
     public LoginController(MemberController mc) {
         this.mc = mc;
     }
 
+    /*아이디와 비밀번호를 입력해 로그인하는 기능*/
     public void login() {
         Scanner sc = new Scanner(System.in);
         System.out.print("아이디: ");
@@ -48,6 +50,7 @@ public class LoginController {
         return logInMember;
     }
 
+    /*null값을 이용해 로그아웃*/
     public void logout() {
     	logInMember = null;
         isAdmin = false;
