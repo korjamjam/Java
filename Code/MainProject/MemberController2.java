@@ -5,87 +5,106 @@ import com.kh.vo.Member;
 import com.kh.vo.Video;
 
 public class MemberController {
-    private ArrayList<Member> members = new ArrayList<>();
+	private ArrayList<Member> members = new ArrayList<>();
 
-    public MemberController() {
-        super();
-        members.add(new Member("admin", "ad123", "관리자계정", "admin@kh.com", 99));
-    }
+	public MemberController() {
+		super();
+		//미리 등록된 관리자 계정
+		members.add(new Member("admin", "ad123", "관리자계정", "admin@kh.com", 99));
+	}
+	
+	/*NeflixMenu에서 입력 받은 값으로 회원 가입 기능 수행*/
+	public void addMember(String userId, String userPwd, String name, String email, int age) {
+		if (members.size() < 6) {
+			members.add(new Member(userId, userPwd, name, email, age));
+			System.out.println("회원이 성공적으로 추가되었습니다.");
+			return;
+		} else {
+			System.out.println("회원이 가득 찼습니다.");
+			return;
+		}
+	}
+	/*모든 회원 정보 출력*/
+	public void AllMembers() {
+		for (Member m : members) {
+			if (!"admin".equals(m.getId())) {
+				System.out.println(m);
+			}
+		}
+	}
+	
+	/*NeflixMenu에서 입력 받은 이름과 아이디로 회원 검색 기능 수행*/
+	public boolean searchMember(String name, String userId) {
+		for (Member m : members) {
+			if (!"admin".equals(m.getId())) {
+				if (m.getMembername().equals(name) && m.getId().equals(userId)) {
+					System.out.println(m);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	/*NeflixMenu에서 입력 받은 이름과 아이디로 회원 삭제(탈퇴) 기능 수행*/
+	public boolean deleteMember(String name, String userId) {
+		for (Member m : members) {
+			if (m.getMembername().equals(name) && m.getId().equals(userId)) {
+				members.remove(m);
+				return true;
+			}
+		}
+		return false;
+	}
 
-    public void addMember(String userId, String userPwd, String name, String email, int age) {
-        if (members.size() < 6) {
-            members.add(new Member(userId, userPwd, name, email, age));
-            System.out.println("회원이 성공적으로 추가되었습니다.");
-            return;
-        } else {
-            System.out.println("회원이 가득 찼습니다.");
-            return;
-        }
-    }
+	/*이름과 아이디가 같을 때의 회원 정보를 return*/
+	public Member getMemberByName(String name, String userId) {
+		for (Member m : members) {
+			if (m.getMembername().equals(name) && m.getId().equals(userId)) {
+				return m;
+			}
+		}
+		return null;
+	}
 
-    public void printMembers() {
-        for (Member m : members) {
-            if (!"admin".equals(m.getId())) {
-                System.out.println(m);
-            }
-        }
-    }
+	/*로그인에 필요한 아이디와 비밀번호를 입력받고 return */
+	public Member getMemberByIdPwd(String userId, String userPwd) {
+		for (Member m : members) {
+			if (m.getId().equals(userId) && m.getPwd().equals(userPwd)) {
+				return m;
+			}
+		}
+		return null;
+	}
 
-    public boolean deleteMember(String name, String userId) {
-        for (Member m : members) {
-            if (m.getMembername().equals(name) && m.getId().equals(userId)) {
-                members.remove(m);
-                return true;
-            }
-        }
-        return false;
-    }
+	public ArrayList<Member> getMembers() {
+		return members;
+	}
 
-    public boolean searchMember(String name, String userId) {
-        for (Member m : members) {
-            if (m.getMembername().equals(name) && m.getId().equals(userId)) {
-                System.out.println(m);
-                System.out.println(m.getMembername() + "님의 동영상 목록");
-                for (Video v : m.getPlaylist()) {
-                    System.out.println(v);
-                }
-                return true;
-            }
-        }
-        return false;
-    }
+	/*NeflixMenu에서 입력 받은 이름과 아이디가 같은 회원 플레이리스트 출력*/
+	public void viewMemberPlaylist(String name, String userId) {
 
-    public Member getMemberByName(String name, String userId) {
-        for (Member m : members) {
-            if (m.getMembername().equals(name) && m.getId().equals(userId)) {
-                return m;
-            }
-        }
-        return null;
-    }
+		for (Member m : members) {
+			if (m.getMembername().equals(name) && m.getId().equals(userId)) {
+				System.out.println(m);
+			}
+			if (m.getMembername().equals(name) && m.getId().equals(userId)) {
+				System.out.println(m.getMembername() + "님의 동영상 목록");
+				for (Video v : m.getPlaylist()) {
+					System.out.println(v);
+				}
+			}
+		}
+	}
 
-    public Member getMemberByIdAndPwd(String userId, String userPwd) {
-        for (Member m : members) {
-            if (m.getId().equals(userId) && m.getPwd().equals(userPwd)) {
-                return m;
-            }
-        }
-        return null;
-    }
+	/*모든 회원의 정보와 플레이리스트 출력*/
+	public void viewAllMemberVideo() {
+		for (Member m : members) {
+			if (!"admin".equals(m.getId())) {
+				this.viewMemberPlaylist(m.getMembername(), m.getId());
+			}
+			System.out.println("---------------------------------------------------------");
+		}
+	}
 
-    public ArrayList<Member> getMembers() {
-        return members;
-    }
-
-    public void viewMemberPlaylist() {
-        for (Member m : members) {
-            if (!"admin".equals(m.getId())) {
-                System.out.println(m);
-                System.out.println(m.getMembername() + "님의 동영상 목록");
-                for (Video v : m.getPlaylist()) {
-                    System.out.println(v);
-                }
-            }
-        }
-    }
 }
