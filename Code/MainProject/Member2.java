@@ -79,7 +79,7 @@ public class Member {
 
 	@Override
 	public String toString() {
-		return "아이디 :" + id + ", 비밀번호 :" + pwd + ", 회원 이름 :" + membername + ", 이메일 :" + email + ", 나이 :" + age;
+		return  "회원 이름 :" + membername + ", 아이디 :" + id + ", 비밀번호 :" + pwd + ", 이메일 :" + email + ", 나이 :" + age;
 	}
 
 
