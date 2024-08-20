@@ -6,14 +6,15 @@ import com.kh.vo.Member;
 
 public class NetflixController {
 	private ArrayList<Video> videos = new ArrayList<>();
-
+	
+	/*미리 등록된 동영상 (장르별, 나이제한별로 출력해볼까?)*/
 	public NetflixController() {
 		super();
 		videos.add(new Video("스위트홈", "공포", 18));
 		videos.add(new Video("미니언즈", "애니", 1));
 		videos.add(new Video("타이타닉", "로맨스", 15));
 		videos.add(new Video("인사이드 아웃", "애니", 1));
-		videos.add(new Video("나는 솔로", "예능", 15));
+		videos.add(new Video("솔로지옥", "예능", 15));
 		videos.add(new Video("조커", "느와르", 18));
 		videos.add(new Video("신세계", "느와르", 18));
 		videos.add(new Video("파묘", "공포", 18));
@@ -21,12 +22,14 @@ public class NetflixController {
 		videos.add(new Video("솔로지옥", "예능", 15));
 	}
 
+	/*등록된 모든 동영상 출력*/
 	public void printAllVideos() {
 		for (Video v : videos) {
 			System.out.println(v);
 		}
 	}
-
+	
+	/*플레이리스트에 동영상 저장 기능*/
 	public boolean saveVideo(MemberController mc, String memberName, String userId, String videoTitle) {
 		Member member = mc.getMemberByName(memberName, userId);
 		if (member == null) {
@@ -49,6 +52,7 @@ public class NetflixController {
 		return false;
 	}
 
+	/*플레이리스트에 동영상 삭제 기능*/	
 	public boolean deleteVideo(MemberController mc, String memberName, String userId, String videoTitle) {
 		Member member = mc.getMemberByName(memberName, userId);
 		if (member == null) {
@@ -66,6 +70,7 @@ public class NetflixController {
 		return false;
 	}
 
+	/*관리자 계정으로 동영상 추가 기능*/
 	public void addVideo(String videoTitle, String genre, int limitAge) {
 		for (Video v : videos) {
 			if (!(v.getVideoname().equals(videoTitle))) {
@@ -79,6 +84,7 @@ public class NetflixController {
 		}
 	}
 
+	/*관리자 계정으로 동영상 삭제 기능*/
 	public void removeVideo(String videoTitle) {
 		for (Video v : videos) {
 			if (v.getVideoname().equals(videoTitle)) {
