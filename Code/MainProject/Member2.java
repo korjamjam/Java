@@ -1,86 +1,110 @@
-package com.kh.vo;
+package com.kh.control;
 
 import java.util.ArrayList;
+import com.kh.vo.Member;
+import com.kh.vo.Video;
 
-public class Member {
-	private String id;
-	private String pwd;
-    private String membername;
-    private String email;
-    private int age;
-    private ArrayList<Video> playlist;
+public class MemberController {
+	private ArrayList<Member> members = new ArrayList<>();
 
-    public Member() {
-        super();
-        this.playlist = new ArrayList<>();
-    }
-    
-    public Member(String id, String pwd, String membername, String email, int age) {
+	public MemberController() {
 		super();
-		this.id = id;
-		this.pwd = pwd;
-		this.membername = membername;
-		this.email = email;
-		this.age = age;
-		this.playlist = new ArrayList<>();
+		//미리 등록된 관리자 계정
+		members.add(new Member("admin", "ad123", "관리자계정", "admin@kh.com", 99));
+	}
+	
+	/*NeflixMenu에서 입력 받은 값으로 회원 가입 기능 수행*/
+	public void addMember(String userId, String userPwd, String name, String email, int age) {
+		if (members.size() < 6) {
+			members.add(new Member(userId, userPwd, name, email, age));
+			System.out.println("회원이 성공적으로 추가되었습니다.");
+			return;
+		} else {
+			System.out.println("회원이 가득 찼습니다.");
+			return;
+		}
+	}
+	/*모든 회원 정보 출력*/
+	public void AllMembers() {
+		for (Member m : members) {
+			if (!"admin".equals(m.getId())) {
+				System.out.println(m);
+			}
+		}
+	}
+	
+	/*NeflixMenu에서 입력 받은 이름과 아이디로 회원 검색 기능 수행*/
+	public boolean searchMember(String name, String userId) {
+		for (Member m : members) {
+			if (!"admin".equals(m.getId())) {
+				if (m.getMembername().equals(name) && m.getId().equals(userId)) {
+					System.out.println(m);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	/*NeflixMenu에서 입력 받은 이름과 아이디로 회원 삭제(탈퇴) 기능 수행*/
+	public boolean deleteMember(String name, String userId) {
+		for (Member m : members) {
+			if (m.getMembername().equals(name) && m.getId().equals(userId)) {
+				members.remove(m);
+				return true;
+			}
+		}
+		return false;
 	}
 
-	public String getId() {
-		return id;
+	/*이름과 아이디가 같을 때의 회원 정보를 return*/
+	public Member getMemberByName(String name, String userId) {
+		for (Member m : members) {
+			if (m.getMembername().equals(name) && m.getId().equals(userId)) {
+				return m;
+			}
+		}
+		return null;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	/*로그인에 필요한 아이디와 비밀번호를 입력받고 return */
+	public Member getMemberByIdPwd(String userId, String userPwd) {
+		for (Member m : members) {
+			if (m.getId().equals(userId) && m.getPwd().equals(userPwd)) {
+				return m;
+			}
+		}
+		return null;
 	}
 
-	public String getPwd() {
-		return pwd;
+	public ArrayList<Member> getMembers() {
+		return members;
 	}
 
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
+	/*NeflixMenu에서 입력 받은 이름과 아이디가 같은 회원 플레이리스트 출력*/
+	public void viewMemberPlaylist(String name, String userId) {
+
+		for (Member m : members) {
+			if (m.getMembername().equals(name) && m.getId().equals(userId)) {
+				System.out.println(m);
+			}
+			if (m.getMembername().equals(name) && m.getId().equals(userId)) {
+				System.out.println(m.getMembername() + "님의 동영상 목록");
+				for (Video v : m.getPlaylist()) {
+					System.out.println(v);
+				}
+			}
+		}
 	}
 
-	public String getMembername() {
-        return membername;
-    }
-
-    public void setMembername(String membername) {
-        this.membername = membername;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public ArrayList<Video> getPlaylist() {
-        return playlist;
-    }
-
-    public void addVideoToPlaylist(Video video) {
-        this.playlist.add(video);
-    }
-
-    public void removeVideoFromPlaylist(Video video) {
-        this.playlist.remove(video);
-    }
-
-	@Override
-	public String toString() {
-		return  "회원 이름 :" + membername + ", 아이디 :" + id + ", 비밀번호 :" + pwd + ", 이메일 :" + email + ", 나이 :" + age;
+	/*모든 회원의 정보와 플레이리스트 출력*/
+	public void viewAllMemberVideo() {
+		for (Member m : members) {
+			if (!"admin".equals(m.getId())) {
+				this.viewMemberPlaylist(m.getMembername(), m.getId());
+			}
+			System.out.println("---------------------------------------------------------");
+		}
 	}
-
 
 }
